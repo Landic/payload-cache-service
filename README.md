@@ -15,7 +15,9 @@ For cache misses, a per-key in-process lock closes the classic check-then-act ra
 
 This locking scope is intentionally explicit: it protects duplicate calls inside one service process. For a multi-worker or multi-instance deployment, I would replace it with a distributed lock/single-flight mechanism (for example Redis) or a database-backed lease. The cache table and unique constraints remain useful in either model.
 
-SQLite is used because it is sufficient for the coding task and makes the repository self-contained. The database URL is configurable, so PostgreSQL can be used without changing service code. For production with multiple writers, I would use PostgreSQL.
+SQLite is used because it is sufficient for the coding task and makes the repository self-contained. The database URL is configurable, so PostgreSQL can be used without changing service code; install the optional `postgres` extra to get the PostgreSQL driver. For production with multiple writers, I would use PostgreSQL.
+
+The task says “payloads files”, but the API contract exposes payloads through IDs and a database is explicitly required for cached outcomes, so I treat a payload as a persisted database record rather than a filesystem artifact.
 
 The transformer is deliberately deterministic (`str.upper`) because the task describes it as a simulation of an external service. The service layer depends on the transformer interface, so a real integration can replace it without changing API or persistence code.
 
@@ -99,6 +101,8 @@ docker compose up --build
 The SQLite database is persisted in `./data/cache.db`.
 
 ## Testing strategy
+
+The application uses `Base.metadata.create_all()` at startup instead of migrations because the assessment has a very small fixed schema. In a production project with schema evolution, I would use Alembic.
 
 The tests cover:
 
