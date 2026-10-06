@@ -7,7 +7,7 @@ class PayloadCreateRequest(BaseModel):
 
     @field_validator("list_1", "list_2")
     @classmethod
-    def reject_newlines_only_values(cls, values: list[str]) -> list[str]:
+    def reject_blank_values(cls, values: list[str]) -> list[str]:
         # Keep the input semantics simple while rejecting accidental blank values.
         if any(not value.strip() for value in values):
             raise ValueError("list values must not be blank")

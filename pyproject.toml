@@ -6,18 +6,21 @@ build-backend = "setuptools.build_meta"
 name = "payload-cache-service"
 version = "0.1.0"
 description = "FastAPI service that caches string transformations and deduplicates generated payloads."
-requires-python = ">=3.13,<3.14"
+requires-python = ">=3.11,<3.14"
 dependencies = [
-    "fastapi>=0.128,<0.129",
-    "httpx>=0.28,<0.29",
-    "pydantic-settings>=2.14,<2.15",
-    "sqlalchemy>=2.0.50,<2.1",
-    "uvicorn[standard]>=0.39,<0.40",
+    "fastapi>=0.115,<1",
+    "httpx>=0.27,<1",
+    "pydantic-settings>=2.7,<3",
+    "sqlalchemy>=2,<3",
+    "uvicorn[standard]>=0.30,<1",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=9.0,<10",
+    "pytest>=8,<10",
+]
+postgres = [
+    "psycopg[binary]>=3.2,<4",
 ]
 
 [project.scripts]
