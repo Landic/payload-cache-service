@@ -13,8 +13,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class CliSettings(BaseSettings):
     """Validated CLI configuration.
 
-    The assignment lists ``-h`` for both host and help. That is ambiguous, so
-    the executable uses ``-H/--host`` and keeps ``-h/--help`` for conventional CLI help.
+    The assignment lists ``-h`` for both host and help. The CLI resolves this
+    contextually: ``-h`` alone is help, while ``-h URL`` is the host shortcut.
     """
 
     model_config = SettingsConfigDict(
